@@ -2,22 +2,21 @@
 
 const sendLoginToApi = data => {
   console.log('Se están enviando datos al login:', data);
+  const bodyParams = {
+    userEmail: data.email,
+    userPassword: data.password,
+  };
   // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
-  return fetch('http://localhost:4000/users')
+  return fetch('http://localhost:4000/login', {
+    method: "POST",
+    body: JSON.stringify(bodyParams),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
     .then(response => response.json())
-    .then(() => {
-      // CAMBIA EL CONTENIDO DE ESTE THEN PARA GESTIONAR LA RESPUESTA DEL SERVIDOR Y RETORNAR AL COMPONENTE APP LO QUE NECESITA
-      if (data.email.includes('gmail')) {
-        return {
-          success: true,
-          userId: '123'
-        };
-      } else {
-        return {
-          success: false,
-          errorMessage: 'Usuario no encontrado'
-        };
-      }
+    .then(data => {
+      return data;
     });
 };
 
