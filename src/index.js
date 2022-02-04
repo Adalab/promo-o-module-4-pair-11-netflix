@@ -7,6 +7,7 @@ const users = require('./data/users.json');
 const server = express();
 server.use(cors());
 server.use(express.json());
+server.set("view engine", "ejs");
 
 // init express aplication
 const serverPort = 4000;
@@ -41,6 +42,14 @@ server.post('/login', (req, res) => {
     })
   }
 })
+
+
+server.get("/movie/:movieId", (req, res) => {
+  const requestParamMovie = req.params.movieId;
+  const foundMovie = movies.find((movie) => movie.id === requestParamMovie);
+  console.log(foundMovie);
+  res.render('movie', foundMovie);
+});
 
 
 const staticServerPathWeb = "./src/public-react";
