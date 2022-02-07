@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const movies = require('./data/movies.json');
 const users = require('./data/users.json');
+const Database = require('better-sqlite3');
 
 // create and config server
 const server = express();
@@ -15,14 +16,39 @@ server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
+// init and config data base
+const db = new Database('./src/db/database.db', {
+  // this line log in console all data base queries
+  verbose: console.log
+});
+
+
 //creacion de API
 server.get('/movies', (req, res) => {
-  const response = {
-    success: true,
-    movies: movies,
+  const gender = req.query.gender;
+  const sort = req.query.sort;
 
-  };
-  res.json(response);
+  if (!gender || !sort) {
+    const query = db.prepare(`SELECT * FROM movies ORDER BY title ${sort}`);
+    const movies = query.all();
+    const response = {
+      success: true,
+      movies: movies,
+
+    };
+    res.json(response);
+
+  } else {
+    const query = db.prepare(`SELECT * FROM movies WHERE gender = ? ORDER BY title ${sort}`);
+    const movies = query.all(gender);
+    const response = {
+      success: true,
+      movies: movies,
+
+    };
+    res.json(response);
+  }
+
 });
 
 
