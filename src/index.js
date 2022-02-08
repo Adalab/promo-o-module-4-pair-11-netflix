@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const movies = require('./data/movies.json');
-const users = require('./data/users.json');
+// const users = require('./data/users.json');
 const Database = require('better-sqlite3');
 
 // create and config server
@@ -76,6 +76,7 @@ server.post('/signup', (req, res) => {
 
 
 server.post('/login', (req, res) => {
+  console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
   const query = db.prepare('SELECT * FROM users WHERE email = ? AND password = ?');
@@ -96,9 +97,9 @@ server.post('/login', (req, res) => {
 
 server.get("/movie/:movieId", (req, res) => {
   const requestParamMovie = req.params.movieId;
-  const foundMovie = movies.find((movie) => movie.id === requestParamMovie);
-  console.log(foundMovie);
-  res.render('movie', foundMovie);
+  const query = db.prepare(`SELECT * FROM movies WHERE id = ? `);
+  const movie = query.get(requestParamMovie);
+  res.render('movie', movie);
 });
 
 

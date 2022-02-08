@@ -33,8 +33,8 @@ Por favor marca a continuación los ejericios que hayais terminado:
   4.2 Express JS I:
 
 - [x] 1. Pedir todas las películas
-- [ ] 2. Filtrar por género
-- [ ] 3. Ordenar por nombre
+- [x] 2. Filtrar por género
+- [x] 3. Ordenar por nombre
 
   4.3 Express JS II:
 
@@ -57,7 +57,7 @@ Por favor marca a continuación los ejericios que hayais terminado:
 - [x] 2. Configura la base de datos en Node JS
 - [x] 3. Haz un SELECT para obtener todas películas
 - [x] 4. Mejora tu SELECT
-- [ ] 5. SELECT para el motor de plantillas
+- [x] 5. SELECT para el motor de plantillas
 - [x] 6. Crear la tabla de usuarias
 
   4.6 Bases de datos I:
