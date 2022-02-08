@@ -51,22 +51,33 @@ server.get('/movies', (req, res) => {
 
 });
 
+server.post('/sign-up', (req, res) => {
+
+  const email = req.query.email;
+  const password = req.query.password;
+  const query = db.prepare("INSERT INTO users (email, password) VALUES (?, ?)");
+  const result = query.run(email, password);
+  res.json({
+    "success": true,
+    "userId": "nuevo-id-añadido"
+  })
+});
 
 
 server.post('/login', (req, res) => {
+  const email = req.query.email;
+  const password = req.query.password;
+  const query= db.prepare("SELECT * FROM users WHERE email=? AND password=?");
+  const result = query.get(email, password);
+  console.log(result);
 
-  const foundUser = users.find((user) => { return (user.email === req.body.userEmail && user.password === req.body.userPassword) });
-  if (foundUser) {
-    res.json({
-      "success": true,
-      "userId": "id_de_la_usuaria_encontrada"
-    })
-  } else {
-    res.json({
-      "success": false,
-      "errorMessage": "Usuaria/o no encontrada/o"
-    })
-  }
+  //if result === 
+  //res.json({
+  //  error: false,
+  //  userId: result.lastInsertRowid,
+ // });
+
+
 })
 
 
