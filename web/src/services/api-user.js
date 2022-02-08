@@ -8,38 +8,29 @@ const sendLoginToApi = data => {
   };
   // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
   return fetch('http://localhost:4000/login', {
-    method: "POST",
-    body: JSON.stringify(bodyParams),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(response => response.json())
-    .then(data => {
-      return data;
-    });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  }).then((response) => response.json());
 };
 
 // signup
 
-const sendSingUpToApi  = data => {
+const sendSingUpToApi = data => {
   console.log('Se están enviando datos al login:', data);
   const bodyParams = {
     userEmail: data.email,
     userPassword: data.password,
   };
   // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
-  return fetch('http://localhost:4000/sign-up', {
-    method: "POST",
-    body: JSON.stringify(bodyParams),
+  return fetch('http://localhost:4000/signup', {
+    method: 'POST',
+    body: JSON.stringify(data),
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-  })
-    .then(response => response.json())
-    .then(data => {
-      return data;
-    });
+  }).then(response => response.json())
+
 };
 
 // profile

@@ -51,33 +51,46 @@ server.get('/movies', (req, res) => {
 
 });
 
-server.post('/sign-up', (req, res) => {
+server.post('/signup', (req, res) => {
 
-  const email = req.query.email;
-  const password = req.query.password;
-  const query = db.prepare("INSERT INTO users (email, password) VALUES (?, ?)");
-  const result = query.run(email, password);
-  res.json({
-    "success": true,
-    "userId": "nuevo-id-añadido"
-  })
+  const email = req.body.email;
+  const password = req.body.password;
+  // console.log("ESTE ES EL BODY", req.body);
+  const selectuser = db.prepare('SELECT * FROM users WHERE email = ?');
+  const foundUser = selectuser.get(email);
+  // console.log(foundUser);
+  if (foundUser === undefined) {
+    const query = db.prepare('INSERT INTO users (email, password) VALUES (?, ?)');
+    const result = query.run(email, password);
+    res.json({
+      "success": true,
+      userId: result.id,
+    });
+  } else {
+    res.json({
+      "success": false,
+      "errorMessage": "Usuaria/o no encontrada/o"
+    });
+  }
 });
 
 
 server.post('/login', (req, res) => {
-  const email = req.query.email;
-  const password = req.query.password;
-  const query= db.prepare("SELECT * FROM users WHERE email=? AND password=?");
+  const email = req.body.email;
+  const password = req.body.password;
+  const query = db.prepare('SELECT * FROM users WHERE email = ? AND password = ?');
   const result = query.get(email, password);
-  console.log(result);
-
-  //if result === 
-  //res.json({
-  //  error: false,
-  //  userId: result.lastInsertRowid,
- // });
-
-
+  if (result !== undefined) {
+    res.json({
+      "success": true,
+      userId: result.id
+    });
+  } else {
+    res.json({
+      "success": false,
+      "errorMessage": "Usuaria/o no encontrada/o"
+    });
+  }
 })
 
 
