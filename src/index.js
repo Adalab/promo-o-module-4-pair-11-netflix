@@ -1,7 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const movies = require('./data/movies.json');
-// const users = require('./data/users.json');
 const Database = require('better-sqlite3');
 
 // create and config server
@@ -55,10 +53,8 @@ server.post('/signup', (req, res) => {
 
   const email = req.body.email;
   const password = req.body.password;
-  // console.log("ESTE ES EL BODY", req.body);
   const selectuser = db.prepare('SELECT * FROM users WHERE email = ?');
   const foundUser = selectuser.get(email);
-  // console.log(foundUser);
   if (foundUser === undefined) {
     const query = db.prepare('INSERT INTO users (email, password) VALUES (?, ?)');
     const result = query.run(email, password);
@@ -100,6 +96,18 @@ server.get("/movie/:movieId", (req, res) => {
   const query = db.prepare(`SELECT * FROM movies WHERE id = ? `);
   const movie = query.get(requestParamMovie);
   res.render('movie', movie);
+});
+
+
+server.get("/user/movies", (req, res) => {
+  const movieIdsQuery = db.prepare(
+    `SELECT movieId FROM rel_movies_users WHERE userId = ? `);
+  const movieIds = movieIdsQuery.all(req.header("user-id"));
+  console.log(movieIds);
+  res.json({
+    "success": true,
+    "movies": []
+  })
 });
 
 
