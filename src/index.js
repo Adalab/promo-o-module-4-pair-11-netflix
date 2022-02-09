@@ -65,7 +65,7 @@ server.post('/signup', (req, res) => {
   } else {
     res.json({
       "success": false,
-      "errorMessage": "Usuaria/o no encontrada/o"
+      "errorMessage": "Usuaria/o ya registrada/o"
     });
   }
 });
